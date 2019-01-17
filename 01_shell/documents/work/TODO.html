@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<!-- saved from url=(0102)https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#pipes-and-filters -->
+<html lang="en-us"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      01 The Unix Shell · Computational Methods in Physics
+    
+  </title>
+
+  <!-- CSS -->
+  <style class="anchorjs"></style><link rel="stylesheet" href="./TODO_files/poole.css">
+  <link rel="stylesheet" href="./TODO_files/syntax.css">
+  <link rel="stylesheet" href="./TODO_files/lanyon.css">
+  <link rel="stylesheet" href="./TODO_files/custom.css">
+  <link rel="stylesheet" href="./TODO_files/css">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/public/favicon.ico">
+
+  <!-- RSS -->
+  <link type="application/atom+xml" rel="alternate" href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/feed.xml" title="Computational Methods in Physics">
+
+  <!-- deep header links https://github.com/bryanbraun/anchorjs -->
+  <script src="./TODO_files/anchor.min.js.download"></script>
+  <script>
+     // https://www.bryanbraun.com/anchorjs/#basic-usage
+     // Add anchors on DOMContentLoaded
+     document.addEventListener("DOMContentLoaded", function(event) {
+     anchors.add('h2, h3, h4, h5, h6');
+     });
+  </script>
+  
+  <!-- MathJax with kramdown: http://jekyllrb.com/docs/extras/ -->
+  <script src="./TODO_files/MathJax.js.download" id=""></script>
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+
+
+  <body><div id="MathJax_Message" style="display: none;"></div>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A <a href="https://becksteinlab.physics.asu.edu/learning/76/phy494-computational-physics">class at Arizona State University</a> that teaches students how to use the computer as a tool to solve problems in physics
+</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <a class="sidebar-nav-item" href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/about/">About</a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a class="sidebar-nav-item" href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/overview/">Overview</a>
+        
+      
+    
+      
+        
+      
+    
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://becksteinlab.physics.asu.edu/learning/76/phy494-computational-physics">Course
+      page</a>
+    <a class="sidebar-nav-item" href="https://github.com/ASU-CompMethodsPhysics-PHY494/">GitHub site</a>
+    <a class="sidebar-nav-item" href="https://github.com/ASU-CompMethodsPhysics-PHY494/PHY494-resources/wiki">Wiki</a>        
+    <a class="sidebar-nav-item" href="https://github.com/ASU-CompMethodsPhysics-PHY494/PHY494-resources">PHY494-resources</a>    
+    <span class="sidebar-nav-item">Currently Spring 2019</span>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      © 2019 Oliver Beckstein. Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title" id="computational-methods-in-physics
+asu-physics-phy-494">
+            <a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/" title="Home">Computational Methods in Physics</a>
+            <small>ASU Physics PHY 494</small>
+          <a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#computational-methods-in-physicsasu-physics-phy-494" aria-label="Anchor link for: computational methods in physics
+asu physics phy 494" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">01 The Unix Shell</h1>
+  <span class="post-date">10 Jan 2019</span>
+  <p>This lesson introduces the <strong>shell</strong>, also known as the <strong>command
+line</strong>. There are many different shells: We are using the
+<strong><a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">bash</a></strong> shell.</p>
+
+<p>This lesson builds on <a href="https://becksteinlab.physics.asu.edu/learning/24/introduction-to-the-command-line">An Introduction to the command
+line</a>
+with <a href="https://becksteinlab.physics.asu.edu/pages/unix/IntroUnix/p01_UNIX.html">Unix
+Basics</a>
+and the <a href="https://swcarpentry.github.io/shell-novice/">Software Carpentry lesson on The Unix
+Shell</a>.</p>
+
+<ol>
+  <li><a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#background-and-motivation">Background and Motivation</a></li>
+  <li><a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#introductory-shell-tutorial">Introductory Shell Tutorial</a> on basic shell usage
+    <ul>
+      <li><a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#accessing-the-shell">Accessing the shell</a></li>
+      <li><a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#navigating-files-and-directories">Navigating Files and Directories</a></li>
+      <li><a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#creating-directories-and-files">Creating directories and files</a></li>
+      <li><a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#copy-rename-delete">Copy, rename, delete</a></li>
+    </ul>
+  </li>
+  <li><a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#intermediate-level">Intermediate level</a> (optional)
+    <ul>
+      <li><a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#pipes-and-filters">Pipes and Filters</a></li>
+      <li><a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#using-git-to-get-data-for-the-class">Using <code class="highlighter-rouge">git</code> to get data for the class</a></li>
+      <li><a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#shell-scripts">Shell scripts</a></li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="background-and-motivation">Background and Motivation<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#background-and-motivation" aria-label="Anchor link for: background and motivation" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>As a computational scientist you have one primary tool at your hand: a
+computer. And like an experimental scientist, you will have to be able
+to interact with it, adjust it, tweak it, fix it, and generally make
+it do things that it has never done before.</p>
+
+<p><img src="./TODO_files/os_shell_organization.png" alt="CLI and GUI provide access to the operating system."></p>
+
+<p>You are probably used to interacting with a computer via a graphical
+user interface ("GUI") — windows, browsers, a mouse or touch
+screen. Although convenient, this limits you to the interactions
+designed into the interface. To get more out of a machine you have to
+talk to it more directly.</p>
+
+<p>We will interact with the computer using the text-based terminal
+through a so-called <em>command line interface</em> (CLI). The user types
+input commands; the commands are read, executed, and output is
+printed. The program responsible for doing this is called the
+<strong>shell</strong> (because it "encloses" the operating system to simplify user
+interaction with it).</p>
+
+<p>The shell is a program like any other but it's primary purpose is to
+run other programs; most of the input "commands" are in fact other
+programs. The shell is very good at working with the file system
+(files and directories), combining multiple existing tools in powerful
+ways, and automating tasks. On a
+<a href="http://en.wikipedia.org/wiki/Unix">Unix</a>-like operating systems
+(typically used for high-performance computing) using the shell is a
+very powerful (and essential) way to interact with the computer.</p>
+
+<h2 id="introductory-shell-tutorial">Introductory Shell Tutorial<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#introductory-shell-tutorial" aria-label="Anchor link for: introductory shell tutorial" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<h3 id="accessing-the-shell">Accessing the shell<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#accessing-the-shell" aria-label="Anchor link for: accessing the shell" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<ul>
+  <li>
+    <p>On a typical <strong>Linux</strong> system you open an application called
+<em>terminal</em> or <em>xterm</em> or <em>kterm</em> (or similar).</p>
+  </li>
+  <li>
+    <p>On <strong>Mac OS X</strong> you open <em>Terminal.app</em> (in the <em>Utilities</em> folder in
+<em>Applications</em>).</p>
+  </li>
+  <li>
+    <p>On Windows we use <em>Git Bash</em>: Find it in the Program menu under <em>All
+Programs/Git/Git Bash</em></p>
+  </li>
+</ul>
+
+<p>You should be greeted by the <em>prompt</em>, which can look like this</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$
+</code></pre></div></div>
+
+<p>with the cursor as an underline or block showing that you can
+type. Often your prompt is more elaborate, e.g.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dvader@deathstar.empire.gov  ~$
+</code></pre></div></div>
+
+<p>Type</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">whoami</code></pre></figure>
+
+<p>and hit enter. You should see your username being printed to the
+screen.</p>
+
+<p>Type</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span></code></pre></figure>
+
+<p>and hit enter to begin the lesson. From now on, input will just be
+shown and you should enter it.</p>
+
+<h3 id="navigating-files-and-directories">Navigating Files and Directories<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#navigating-files-and-directories" aria-label="Anchor link for: navigating files and directories" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<h4 id="commands">Commands<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#commands" aria-label="Anchor link for: commands" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<ul>
+  <li><code class="highlighter-rouge">pwd</code> (print working directory)</li>
+  <li><code class="highlighter-rouge">ls</code> (list directory)</li>
+  <li><code class="highlighter-rouge">cd</code> (change directory)</li>
+</ul>
+
+<p>Commands generally take <em>arguments</em> (what to operate on, required) and
+<em>options</em> (modify the standard behavior, optional).</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">command_name <span class="nt">-v</span> <span class="nt">-o</span> optarg <span class="nt">--long-opt</span>  arg1 arg2</code></pre></figure>
+
+<p>Often, omitting the argument also works and a default is assumed. You
+can learn more about commands with the help function (try running just
+with option <code class="highlighter-rouge">-h</code> or <code class="highlighter-rouge">--help</code> or on Linux/Mac OS X, <code class="highlighter-rouge">man command_name</code>;
+the <em>Git Bash</em> installation does not come with man pages but you can
+use services on the web such as the
+<a href="http://manpages.debian.org/cgi-bin/man.cgi">Debian man pages</a>).</p>
+
+<h4 id="paths">Paths<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#paths" aria-label="Anchor link for: paths" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<p>A <em>path</em> consists of <em>directory names</em> separated by forward-slashes
+"<code class="highlighter-rouge">/</code>" and possibly a final <em>file name</em>.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">/</code> (the actual name of the "root" directory)</li>
+  <li><code class="highlighter-rouge">/home/dvader</code> or <code class="highlighter-rouge">/Users/dvader</code></li>
+  <li><code class="highlighter-rouge">/usr/bin/nano</code></li>
+  <li><code class="highlighter-rouge">books.txt</code></li>
+  <li><code class="highlighter-rouge">/home/dvader/Documents/deathstar/weaknesses.pdf</code></li>
+  <li><code class="highlighter-rouge">Documents/deathstar/weaknesses.pdf</code></li>
+</ul>
+
+<p>Paths starting with <code class="highlighter-rouge">/</code> are called <em>absolute paths</em>; anything else is
+a <em>relative</em> path, starting from the current working directory (check
+with <code class="highlighter-rouge">pwd</code>).</p>
+
+<p>Special directory names:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">.</code>  is the current directory (e.g., <code class="highlighter-rouge">./Documents</code>)</li>
+  <li><code class="highlighter-rouge">..</code> is the parent directory (e.g., <code class="highlighter-rouge">../../home/dvader/..</code>)</li>
+  <li><code class="highlighter-rouge">~</code> is the home directory (only when leading the path, e.g., <code class="highlighter-rouge">~/Documents</code>)</li>
+</ul>
+
+<h4 id="location-in-the-files-system-pwd">Location in the files system: <code class="highlighter-rouge">pwd</code><a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#location-in-the-files-system-pwd" aria-label="Anchor link for: location in the files system pwd" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<p>Assume user dvader has the following directory layout in his <em>home
+directory</em> <code class="highlighter-rouge">/home/dvader</code>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/home/dvader/
+	     Documents/
+		      deathstar/
+			       weaknesses.pdf
+			       electrical_bill.dat
+		      work/
+	     data/
+		      planets.dat
+		      bases
+</code></pre></div></div>
+
+<p>When Mr Vader logs in he starts in his home directory, <code class="highlighter-rouge">/home/dvader</code>. He can
+run <code class="highlighter-rouge">pwd</code> to "print the working directory":</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">pwd</span></code></pre></figure>
+
+<p>which shows <code class="highlighter-rouge">/home/dvader</code>.</p>
+
+<h5 id="activity-find-your-home">Activity: Find Your Home<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#activity-find-your-home" aria-label="Anchor link for: activity find your home" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h5>
+
+<ul>
+  <li>Open Terminal</li>
+  <li>Type</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">  <span class="nb">pwd</span>
+  </code></pre></figure>
+
+<p>and hit enter. Note the directory name: this is your home directory.</p>
+
+<h4 id="listing-file-system-contents-ls">Listing file system contents: <code class="highlighter-rouge">ls</code><a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#listing-file-system-contents-ls" aria-label="Anchor link for: listing file system contents ls" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<p>If he executes <code class="highlighter-rouge">ls</code> ("list") he will see something like</p>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Documents
+data
+</code></pre></div></div>
+
+<h5 id="activity-list-your-home-directory">Activity: List Your Home directory<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#activity-list-your-home-directory" aria-label="Anchor link for: activity list your home directory" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h5>
+
+<ul>
+  <li>open a terminal (or use the open terminal from the last exercise)</li>
+  <li>Type</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">  <span class="nb">ls</span>
+  </code></pre></figure>
+
+<ul>
+  <li>Compare the files that you see with those of your neighbor.</li>
+</ul>
+
+<h4 id="moving-around-the-file-system-cd">Moving around the file system: <code class="highlighter-rouge">cd</code><a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#moving-around-the-file-system-cd" aria-label="Anchor link for: moving around the file system cd" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<p>If he executes the <code class="highlighter-rouge">cd</code> command</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /home/dvader/Documents/deathstar</code></pre></figure>
+
+<p>then he will have moved to the <code class="highlighter-rouge">deathstar</code> directory; confirm with <code class="highlighter-rouge">pwd</code>!:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">pwd</span></code></pre></figure>
+
+<p>will print</p>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/home/dvader/Documents/deathstar
+</code></pre></div></div>
+
+<p>If he runs</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">ls</span></code></pre></figure>
+
+<p>he will see</p>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrical_bill.dat  weaknesses.pdf
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">cd</code> command took an <em>argument</em>, the directory to go to.</p>
+
+<h5 id="activity-going-up">Activity: Going up<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#activity-going-up" aria-label="Anchor link for: activity going up" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h5>
+
+<ul>
+  <li>Go to the parent directory of your home dir:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">  <span class="nb">cd</span> ..
+  </code></pre></figure>
+
+<ul>
+  <li>List the contents</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">  <span class="nb">ls</span>
+  </code></pre></figure>
+
+<h5 id="activity-going-home">Activity: Going Home<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#activity-going-home" aria-label="Anchor link for: activity going home" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h5>
+
+<ul>
+  <li>Type</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">  <span class="nb">cd</span>
+  </code></pre></figure>
+
+<ul>
+  <li>Where are you now? (What command can you use to print the directory
+that you're in?)</li>
+</ul>
+
+<h5 id="more-on-cd">More on <code class="highlighter-rouge">cd</code><a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#more-on-cd" aria-label="Anchor link for: more on cd" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h5>
+
+<p>The command <code class="highlighter-rouge">cd</code> on its own always returns you to your home
+directory. (It is equivalent to <code class="highlighter-rouge">cd ~</code>.)</p>
+
+<p>In order to get to the <code class="highlighter-rouge">data</code> directory he could use the command <code class="highlighter-rouge">cd
+/home/dvader/data</code> but instead he uses the <em>special directory</em> <code class="highlighter-rouge">..</code>
+(which means "the directory above this one"):</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span> ../../data</code></pre></figure>
+
+<p>A second special directory is <code class="highlighter-rouge">.</code> ("this directory"). <code class="highlighter-rouge">.</code> and <code class="highlighter-rouge">..</code>
+are understood by all commands.</p>
+
+<h5 id="autocompletion">Autocompletion<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#autocompletion" aria-label="Anchor link for: autocompletion" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h5>
+
+<ul>
+  <li>Use the <code class="highlighter-rouge">TAB</code> key while typing: <em>autocompletion</em> is one of the best
+features of the shell!</li>
+  <li>The other great interactive feature is the <em>history</em>: try using the
+cursor-up and -down keys.</li>
+</ul>
+
+<h5 id="error-messages">Error messages<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#error-messages" aria-label="Anchor link for: error messages" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h5>
+
+<p>Unix commands are terse: If everything works, they say nothing. If
+they fail, you get a short (sometimes cryptic) error message.</p>
+
+<p>Try</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd </span>bogus</code></pre></figure>
+
+<p>This gives</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash: cd: bogus: No such file or directory
+</code></pre></div></div>
+
+<p><strong>Always read error messages!</strong></p>
+
+<h4 id="activity">Activity<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#activity" aria-label="Anchor link for: activity" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<ol>
+  <li>
+    <p>What does the following sequence of commands show?</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> cd
+ ls -a
+</code></pre></div>    </div>
+  </li>
+  <li>Go to the <code class="highlighter-rouge">bin</code> directory that is located in the root directory (at
+least on Linux and macOS). List the files
+there. Did you find "nano" and "grep"? If not, look into <code class="highlighter-rouge">/usr/bin</code></li>
+  <li>What does <code class="highlighter-rouge">ls -R /</code> show? (Try <code class="highlighter-rouge">^C</code>, i.e., press CONTROL and C at
+the same time…)</li>
+  <li>Try other options of <code class="highlighter-rouge">ls</code> such as <code class="highlighter-rouge">-sh</code> or <code class="highlighter-rouge">-sha</code>. — ask <code class="highlighter-rouge">ls</code> for
+help!</li>
+  <li>Is there a difference between <code class="highlighter-rouge">ls -sha</code>, <code class="highlighter-rouge">ls -ash</code>, and <code class="highlighter-rouge">ls -a -s
+-h</code>?</li>
+</ol>
+
+<h4 id="tips-to-make-your-life-easy">Tips to make your life easy<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#tips-to-make-your-life-easy" aria-label="Anchor link for: tips to make your life easy" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<ul>
+  <li>Use the shell's convenience features:
+    <ul>
+      <li><code class="highlighter-rouge">TAB</code> completion</li>
+      <li>up/down arrow to get commands that you already typed.</li>
+      <li><code class="highlighter-rouge">history</code> shows all the commands you typed so far</li>
+      <li>Try out <code class="highlighter-rouge">Control</code>+<code class="highlighter-rouge">R</code> (<code class="highlighter-rouge">^R</code>) to search through your shell
+<em>history</em>.</li>
+      <li><code class="highlighter-rouge">^A</code> and <code class="highlighter-rouge">^E</code> will likely take you to the beginning and end of a
+line</li>
+    </ul>
+  </li>
+  <li>Use <code class="highlighter-rouge">cd ..</code> to go up, <code class="highlighter-rouge">cd ../..</code> to go up twice etc.</li>
+  <li>Use <code class="highlighter-rouge">cd -</code> to go to <em>the previous directory I was in</em> (only works
+for <code class="highlighter-rouge">cd</code>).</li>
+  <li>Use the tilde character <code class="highlighter-rouge">~</code> for your home directory, e.g. <code class="highlighter-rouge">cd
+~/Documents</code> is equivalent to <code class="highlighter-rouge">cd /home/dvader/Documents</code>.</li>
+</ul>
+
+<h3 id="creating-directories-and-files">Creating directories and files<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#creating-directories-and-files" aria-label="Anchor link for: creating directories and files" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<h4 id="commands-1">Commands<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#commands-1" aria-label="Anchor link for: commands 1" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<ul>
+  <li><code class="highlighter-rouge">mkdir</code> (make directory)</li>
+  <li>your editor of choice (<em>atom</em> by default for the class, <code class="highlighter-rouge">nano</code> is
+an alternative choice <sup id="fnref:2"><a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#fn:2" class="footnote">1</a></sup>)</li>
+</ul>
+
+<h4 id="directory-structure-for-the-class">Directory structure for the class<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#directory-structure-for-the-class" aria-label="Anchor link for: directory structure for the class" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<p>Make a directory <code class="highlighter-rouge">PHY494</code> in your home directory for the class and
+inside it, one called <code class="highlighter-rouge">01_shell</code> for today's lesson:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span> ~
+mkdir PHY494
+<span class="nb">cd </span>PHY494
+mkdir 01_shell</code></pre></figure>
+
+<p>Note:</p>
+
+<ul>
+  <li><em>Avoid spaces and most special characters in file names.</em> All
+letters and numbers together with underscore <code class="highlighter-rouge">_</code>, minus sign <code class="highlighter-rouge">-</code>,
+and period <code class="highlighter-rouge">.</code> are ok. <sup id="fnref:1"><a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#fn:1" class="footnote">2</a></sup></li>
+  <li>Plain <code class="highlighter-rouge">mkdir</code> cannot create multiple directories deep in one go
+unless you have the <code class="highlighter-rouge">-p</code> option (check!).</li>
+</ul>
+
+<h4 id="activity-1">Activity<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#activity-1" aria-label="Anchor link for: activity 1" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<ol>
+  <li>Inside your <code class="highlighter-rouge">01_shell</code> directory, create three directories, <code class="highlighter-rouge">data</code>
+and <code class="highlighter-rouge">Documents/work</code>.</li>
+  <li>Go to <code class="highlighter-rouge">Documents/work</code></li>
+</ol>
+
+<h4 id="creating-text-files-with-a-text-editor">Creating text files with a text editor<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#creating-text-files-with-a-text-editor" aria-label="Anchor link for: creating text files with a text editor" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<p>Run <code class="highlighter-rouge">atom</code>:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">atom</code></pre></figure>
+
+<p>You should see something like this:</p>
+
+<p><img src="./TODO_files/atom_welcome.jpg" alt="atom welcome screenshot"></p>
+
+<p>We will now create a TODO list in a file with name <code class="highlighter-rouge">TODO</code> and content</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Plan for today:
+
+1. find rebel base
+2. destroy!
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>Open a new file via the menu option</p>
+
+    <p><em>File</em> → <em>New File</em></p>
+
+    <p>You should have a tab named <em>untitled</em>.</p>
+
+    <p>Close all the other tabs. It should look like this:</p>
+
+    <p><img src="./TODO_files/atom_untitled.jpg" alt="atom new file"></p>
+  </li>
+  <li>
+    <p>Type the todo list into the editor window.</p>
+
+    <p><img src="./TODO_files/atom_todo.jpg" alt="atom todo list"></p>
+  </li>
+  <li>
+    <p>Save it to file with name 'TODO' with menu option</p>
+
+    <p><em>File</em> → <em>Save</em></p>
+
+    <p>Make sure to navigate to your the <code class="highlighter-rouge">PHY494/01_shell/Documents/work</code> directory.</p>
+
+    <p><img src="./TODO_files/atom_project_file_view.jpg" alt="atom todo list"></p>
+
+    <p>You can hide the "project" view with the directory structure.</p>
+  </li>
+  <li>
+    <p>Quit atom (details depend on your operating system; find the <em>Quit</em>
+menu option either under <em>File</em> or <em>Atom</em>.</p>
+  </li>
+  <li>
+    <p>Check that the file is in the directory with <code class="highlighter-rouge">ls</code>.</p>
+  </li>
+</ol>
+
+<p>You can re-open the file from the command line:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">atom TODO</code></pre></figure>
+
+<h5 id="activity-create-a-file-with-your-editor">Activity: create a file with your editor<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#activity-create-a-file-with-your-editor" aria-label="Anchor link for: activity create a file with your editor" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h5>
+
+<ul>
+  <li>
+    <p>Create a file <code class="highlighter-rouge">~/PHY494/Documents/work/lesson.txt</code> with three
+lessons from today:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. computers are tools
+2. the shell is powerfull
+3. basic shell commands: pwd, cd, ls
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>save the file and check that it is there with</p>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">  <span class="nb">ls</span> <span class="nt">-l</span> ~/PHY494/Documents/work/lesson.txt
+  </code></pre></figure>
+
+<ul>
+  <li>Open the file again and add a 4th lesson regarding file editing.</li>
+</ul>
+
+<h3 id="copy-rename-delete">Copy, rename, delete<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#copy-rename-delete" aria-label="Anchor link for: copy rename delete" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<ul>
+  <li><code class="highlighter-rouge">cp</code> (copy file, <code class="highlighter-rouge">cp -r</code> copy recursively, including directories)</li>
+  <li><code class="highlighter-rouge">mv</code> (move, i.e. rename, also to another directory)</li>
+  <li><code class="highlighter-rouge">rmdir</code> (remove empty directory)</li>
+  <li>
+    <p><code class="highlighter-rouge">rm</code> (remove file, <code class="highlighter-rouge">rm -r</code> remove recursively (<strong>dangerous!</strong>))</p>
+
+    <p><strong>WARNING: There is no "Trashcan" or built in backup. Once you <code class="highlighter-rouge">rm</code>
+something, it is gone.</strong> Be especially careful with <code class="highlighter-rouge">rm -r</code>.</p>
+
+    <p><strong>WARNING: Do not execute <code class="highlighter-rouge">rm -rf *</code>. It will erase everything permanently.</strong></p>
+  </li>
+</ul>
+
+<p>Note: all these commands can also work on multiple filenames.</p>
+
+<h4 id="activity-optional">Activity (optional)<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#activity-optional" aria-label="Anchor link for: activity optional" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<p>This is a more extended exercise in using various shell commands. For
+today, this is optional, but you are encouraged to do it.</p>
+
+<ol>
+  <li>Make a backup (call it <code class="highlighter-rouge">TODO.bak</code>) of the TODO list with the <code class="highlighter-rouge">cp</code>
+command.</li>
+  <li>Rename <code class="highlighter-rouge">TODO</code> to <code class="highlighter-rouge">TODO.txt</code> with the <code class="highlighter-rouge">mv</code> command.</li>
+  <li>
+    <p>Make a directory <code class="highlighter-rouge">notes</code> under the <code class="highlighter-rouge">data</code> directory: You should now
+have a directory tree similar to</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ~/PHY494/01_shell/
+                   Documents/
+                             work/
+                                  TODO.txt
+                                  TODO.bak
+                   data/
+                       notes/
+</code></pre></div>    </div>
+
+    <p>Check with <code class="highlighter-rouge">ls -R ~/PHY494</code>.</p>
+  </li>
+  <li>Put a copy of <code class="highlighter-rouge">TODO.txt</code> into the <code class="highlighter-rouge">notes</code> directory (using <code class="highlighter-rouge">cp</code>).</li>
+  <li>Create a new text file <code class="highlighter-rouge">data/notes/hints.txt</code> and write any
+<a href="https://en.wikipedia.org/wiki/Ice_planet">hints</a>  for possible
+rebel bases into this file.</li>
+  <li>Open <code class="highlighter-rouge">TODO.txt</code> in <code class="highlighter-rouge">atom</code> and add a note to item 1 too look in the
+hints.txt file. Save and exit.</li>
+  <li>
+    <p>Make a copy of your <code class="highlighter-rouge">notes</code> directory in your work directory:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ~/PHY494/01_shell/
+                   Documents/
+                             work/
+                                  TODO.txt
+                                  TODO.bak
+                                  notes/
+                                       TODO.txt
+                                       hints.txt
+                   data/
+                       notes/
+                             TODO.txt
+                             hints.txt
+</code></pre></div>    </div>
+  </li>
+  <li>Remove <code class="highlighter-rouge">data/notes/hints.txt</code> with <code class="highlighter-rouge">rm</code>.</li>
+  <li>Remove <code class="highlighter-rouge">data/notes</code> with <code class="highlighter-rouge">rmdir</code>. (Hint: Read the error message!)</li>
+  <li>Move <code class="highlighter-rouge">work/notes/hints.txt</code> into the <code class="highlighter-rouge">work</code> directory.</li>
+  <li>Remove the useless <code class="highlighter-rouge">work/notes</code> directory with <code class="highlighter-rouge">rm -r</code> (careful !)</li>
+</ol>
+
+<h2 id="intermediate-level">Intermediate Level<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#intermediate-level" aria-label="Anchor link for: intermediate level" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>The following is very useful but for right now not essential and is
+<em>optional</em>. You can work through the tutorial in your own time.</p>
+
+<h3 id="pipes-and-filters">Pipes and Filters<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#pipes-and-filters" aria-label="Anchor link for: pipes and filters" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<h4 id="commands-2">Commands<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#commands-2" aria-label="Anchor link for: commands 2" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<ul>
+  <li><code class="highlighter-rouge">cat</code></li>
+  <li><code class="highlighter-rouge">head</code></li>
+  <li><code class="highlighter-rouge">tail</code></li>
+  <li><code class="highlighter-rouge">less</code></li>
+  <li><code class="highlighter-rouge">wc</code></li>
+  <li><code class="highlighter-rouge">sort</code></li>
+  <li><code class="highlighter-rouge">uniq</code></li>
+  <li><code class="highlighter-rouge">cut</code> and <code class="highlighter-rouge">paste</code></li>
+  <li><code class="highlighter-rouge">grep</code></li>
+</ul>
+
+<p>and special shell characters</p>
+
+<ul>
+  <li><code class="highlighter-rouge">|</code> ("pipe", joins commands together)</li>
+  <li><code class="highlighter-rouge">&gt;</code> (redirects output to a file)</li>
+  <li><code class="highlighter-rouge">&lt;</code> (redirects file to input)</li>
+</ul>
+
+<h4 id="working-with-redirection-and-command-pipelines">Working with redirection and command pipelines<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#working-with-redirection-and-command-pipelines" aria-label="Anchor link for: working with redirection and command pipelines" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<p>Download <a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/public/data/planets.dat">planets.dat</a><sup id="fnref:3"><a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#fn:3" class="footnote">3</a></sup>
+and put it in the directory <code class="highlighter-rouge">data/</code>. You can do this with your web
+browser or if you have the <code class="highlighter-rouge">curl</code> program installed, try</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">curl https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/public/data/planets.dat <span class="nt">-O</span></code></pre></figure>
+
+<p>(all on one line).</p>
+
+<p>Output the whole file to the screen:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cat </span>planets.dat</code></pre></figure>
+
+<p>Look at the first three lines of the file</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">head <span class="nt">-3</span> planets.dat</code></pre></figure>
+
+<p>should give</p>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Alderaan             12500  grasslands/mountains
+Yavin_IV             10200  jungle/rainforests
+Hoth                  7200  tundra/icecaves/mountainranges
+</code></pre></div></div>
+
+<p>Count the number of planets</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">wc planets.dat</code></pre></figure>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      60     180    2944 planets.dat
+</code></pre></div></div>
+
+<p>Make a file in which all planets are duplicated:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cat </span>planets.dat planets.dat <span class="o">&gt;</span> planets_2.dat</code></pre></figure>
+
+<p>(<code class="highlighter-rouge">cat</code> concatenates files and then you redirect it to a new file.)</p>
+
+<h5 id="activity-2">Activity<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#activity-2" aria-label="Anchor link for: activity 2" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h5>
+
+<ol>
+  <li>Test that <code class="highlighter-rouge">wc -l</code> gives just the number of lines ("60").</li>
+  <li>What does <code class="highlighter-rouge">wc planets.dat planets_2.dat</code> do?</li>
+  <li>What happens when you do <code class="highlighter-rouge">wc &lt; planets.dat</code>?</li>
+  <li>Run <code class="highlighter-rouge">wc</code> then type any number of lines of text (pressing enter
+to terminate each line) and when you get bored, press <code class="highlighter-rouge">^D</code>
+(control+D). What happened?</li>
+</ol>
+
+<h5 id="pipes">Pipes<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#pipes" aria-label="Anchor link for: pipes" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h5>
+
+<p>Sort by name and look at the first five using a <strong>pipes</strong> and
+<strong>filters</strong>:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sort planets.dat | head <span class="nt">-5</span></code></pre></figure>
+
+<p>Sort by diameter (<code class="highlighter-rouge">-k2,2</code> is column 2 and numeric sort <code class="highlighter-rouge">-n</code>), biggest
+first (<code class="highlighter-rouge">-r</code> reverse sort), and write the top 3 to a file
+<code class="highlighter-rouge">biggest_planets</code>:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sort <span class="nt">-k2</span>,2 <span class="nt">-n</span> <span class="nt">-r</span> planets.dat | head <span class="nt">-3</span> <span class="o">&gt;</span> biggest_planets</code></pre></figure>
+
+<p>Count the number of planets with unknown diameter:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">grep</span> <span class="s2">"unknown"</span> planets.dat | wc <span class="nt">-l</span></code></pre></figure>
+
+<p>Get the first letter of each planet name and sort alphabetically:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">cut <span class="nt">-b</span> 1,1 planets.dat | sort</code></pre></figure>
+
+<p>Get the terrain types</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">cut <span class="nt">-b</span> 29-  planets.dat</code></pre></figure>
+
+<h4 id="activity-3">Activity<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#activity-3" aria-label="Anchor link for: activity 3" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<ol>
+  <li>Count the number of planets in <code class="highlighter-rouge">planets_2.dat</code>.</li>
+  <li>Find planets where the rebel might have a base (hint: you know it's
+cold there… use <code class="highlighter-rouge">grep</code>). How many planets will you investigate
+more closely? Write the list to the file <code class="highlighter-rouge">bases</code>.</li>
+  <li>How many <em>unique</em> terrain types are there? (Hint: <code class="highlighter-rouge">uniq</code> needs a
+sorted list as input)</li>
+  <li>What is the most frequent and the least frequent first letter
+amongst these planets? (Hint: <code class="highlighter-rouge">uniq -c</code>)</li>
+</ol>
+
+<h4 id="shell-glob-patterns">Shell glob patterns<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#shell-glob-patterns" aria-label="Anchor link for: shell glob patterns" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<p>Use the character <code class="highlighter-rouge">*</code> to match "any part of a file name", e.g.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">ls</span> <span class="k">*</span>.dat</code></pre></figure>
+
+<p>will list all files ending in <code class="highlighter-rouge">.dat</code>.</p>
+
+<p>The <code class="highlighter-rouge">?</code> character matches a single character. Neither of them matches
+a leading <code class="highlighter-rouge">.</code> in a file name or a space.</p>
+
+<h2 id="using-git-to-get-data-for-the-class">Using <code class="highlighter-rouge">git</code> to get data for the class<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#using-git-to-get-data-for-the-class" aria-label="Anchor link for: using git to get data for the class" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p><code class="highlighter-rouge">git</code> is a version control software and we will come back to explain
+its main functionality later. Right now we use it as a convenient tool
+to get additional data.</p>
+
+<p>There is a "repository" at
+<a href="https://github.com/ASU-CompMethodsPhysics-PHY494/PHY494-resources">https://github.com/ASU-CompMethodsPhysics-PHY494/PHY494-resources</a>
+that contains data and code to be used during the class. It will be
+updated as we go along.</p>
+
+<p>Get the data for today by <strong>cloning</strong> the repository:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ~
+git clone https://github.com/ASU-CompMethodsPhysics-PHY494/PHY494-resources.git
+</code></pre></div></div>
+
+<p>(You only need to do this <em>once</em>.)</p>
+
+<p>At any later time, <strong>pull</strong> in the latest updates from inside the
+repository::</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd PHY494-resources
+git pull
+</code></pre></div></div>
+
+<p>(This can be done as often as you like.)</p>
+
+<p>Go into the <code class="highlighter-rouge">PHY494-resources/01_shell/data</code> directory.</p>
+
+<h3 id="activity-4">Activity<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#activity-4" aria-label="Anchor link for: activity 4" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<ol>
+  <li>
+    <p>Read the <code class="highlighter-rouge">README</code> file (e.g. using <code class="highlighter-rouge">atom</code> or <code class="highlighter-rouge">cat</code> or <code class="highlighter-rouge">less</code> (for
+the latter, use <code class="highlighter-rouge">h</code> to get help and <code class="highlighter-rouge">q</code> to quit)).</p>
+  </li>
+  <li>
+    <p>Count the number of entries in <em>all files ending in "csv"</em>. (Hint:
+use a glob pattern)</p>
+  </li>
+  <li>
+    <p>Use <code class="highlighter-rouge">cut -f 1  -d ',' people.csv</code> to extract each name to a file
+<code class="highlighter-rouge">names</code> and a similar command to extract weight to a file <code class="highlighter-rouge">weights</code>.</p>
+  </li>
+  <li>
+    <p>Use the <code class="highlighter-rouge">paste</code> command to generate a new list that contains
+"weight name" (reordered and separated by space):</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> paste weights names
+</code></pre></div>    </div>
+
+    <p>Use this approach to sort the people in order of decreasing weight.</p>
+  </li>
+</ol>
+
+<h2 id="shell-scripts">Shell scripts<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#shell-scripts" aria-label="Anchor link for: shell scripts" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>You can save commands in a file. This is called a <strong>script</strong>. A script
+allows you to reuse commands (laziness is a programmer's virtue!)
+without having to retype them over and over again. It also allows you
+to solve a task once and then forget about how you did it in detail
+because it is written in the script.</p>
+
+<p>Make directory <code class="highlighter-rouge">~/bin</code> for your scripts in your home directory.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">mkdir ~/bin</code></pre></figure>
+
+<p>(I strongly suggest you do this really in your home directory because
+in the following I will assume it; if you changed the path to
+e.g. <code class="highlighter-rouge">~/classes/2016/PHY494/bin</code> then you will need to use that path
+in all the following examples.)</p>
+
+<p>Using<code class="highlighter-rouge">atom</code>, create the following script <code class="highlighter-rouge">~/bin/update_resources.sh</code>:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># PHY 494 script to update the resources repository</span>
+
+<span class="nv">GIT_REPOSITORY</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span><span class="s2">/PHY494-resources"</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GIT_REPOSITORY</span><span class="k">}</span><span class="s2">"</span>
+git pull
+
+<span class="nb">echo</span> <span class="s2">"Updated resources in </span><span class="k">${</span><span class="nv">GIT_REPOSITORY</span><span class="k">}</span><span class="s2">"</span></code></pre></figure>
+
+<p>(You create the script by (1) <code class="highlighter-rouge">atom ~/bin/update_resources.sh</code> (opens
+empty file if it does not exist), (2) type all the lines into the
+editor (or copy &amp; paste), (3) save the file and exit the editor.)</p>
+
+<p>Notes:</p>
+
+<ul>
+  <li>
+    <p><em>All</em> the lines above should be in your file (first line will start
+with <code class="highlighter-rouge"># PHY 494</code> and the last line will begin with <code class="highlighter-rouge">echo</code>).</p>
+  </li>
+  <li>
+    <p>The line starting with <code class="highlighter-rouge">#</code> is a <em>comment</em>: it is not a shell command
+and is ignored by the shell. However, adding comments to scripts is
+<strong>a really, really good idea!</strong></p>
+  </li>
+  <li>
+    <p>The shell has <strong>variables</strong>: Some like <code class="highlighter-rouge">HOME</code> are pre-defined,
+others you can define yourself (<code class="highlighter-rouge">GIT_REPOSITORY=...</code>). Using
+all-caps is a convention that you should follow.</p>
+
+    <p>The contents (value) of variables is accessed with the dollar <code class="highlighter-rouge">$</code>
+sign in front of the variable name.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">echo</code> prints to the standard output (typically, the screen)</p>
+  </li>
+</ul>
+
+<p>Execute the script with</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">bash ~/bin/update_resources.sh</code></pre></figure>
+
+<p>It should show output similar to</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Already up-to-date.
+Updated resources in /Users/oliver/PHY494-resources
+</code></pre></div></div>
+
+<p>However, during the course of the year more data will be added to the
+repository and then you can just run your update command to get the
+data and you might see output like the following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>remote: Counting objects: 15, done.
+remote: Compressing objects: 100% (10/10), done.
+remote: Total 15 (delta 2), reused 15 (delta 2), pack-reused 0
+Unpacking objects: 100% (15/15), done.
+From https://github.com/ASU-CompMethodsPhysics-PHY494/PHY494-resources
+   c3b5c04..23a4083  master     -&gt; origin/master
+Updating c3b5c04..23a4083
+Fast-forward
+ 01_shell/bin/update_resources.sh | 8 ++++++++
+ 02_python/gutentag.py            | 4 ++++
+ 2 files changed, 12 insertions(+)
+ create mode 100644 01_shell/bin/update_resources.sh
+ create mode 100644 02_python/gutentag.py
+Updated resources in /Users/oliver/PHY494-resources
+</code></pre></div></div>
+
+<hr>
+
+<h5 id="footnotes">Footnotes<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#footnotes" aria-label="Anchor link for: footnotes" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h5>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:2">
+
+      <p><strong>Upgrading nano</strong>: If you are using <code class="highlighter-rouge">nano</code> as your editor then you want to
+enable a few useful features including syntax highlighting. The
+easiest way is to download the config files as the zip file
+<a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/public/resources/nanoconfig.zip">nanoconfig.zip</a>
+and unpack them in your home directory (<code class="highlighter-rouge">curl</code> can be used to
+download a file directly instead of having to use the browser):</p>
+
+      <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd 
+curl https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/public/resources/nanoconfig.zip -O
+unzip nanoconfig.zip
+</code></pre></div>      </div>
+
+      <p>This should create the files <code class="highlighter-rouge">~/.nanorc</code> (which you can edit to
+customize further) and the directory <code class="highlighter-rouge">~/.nano</code>.&nbsp;<a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#fnref:2" class="reversefootnote">↩</a></p>
+    </li>
+    <li id="fn:1">
+
+      <p>If you <em>must</em> need spaces then enclose the string in single or
+double quotes, e.g., <code class="highlighter-rouge">'/c/Program Files/'</code> or <code class="highlighter-rouge">"/c/Program
+Files"</code>. Double quotes admit shell variable expansions, single
+quotes do not. Note that a tilde <code class="highlighter-rouge">~</code> within quotes will <em>not</em>
+expand to the home directory!&nbsp;<a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#fnref:1" class="reversefootnote">↩</a></p>
+    </li>
+    <li id="fn:3">
+
+      <p>Star Wars data courtesy of <a href="https://swapi.co/">SWAPI</a>. See
+<a href="https://github.com/ASU-CompMethodsPhysics-PHY494/PHY494-auxilliary/tree/master/star_wars">PHY494-auxilliary/star_wars</a>
+for Python code to pull the data from SWAPI.&nbsp;<a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#fnref:3" class="reversefootnote">↩</a></p>
+    </li>
+  </ol>
+</div>
+
+</div>
+
+<div class="related">
+  <h2 id="related-posts">Related Posts<a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#related-posts" aria-label="Anchor link for: related posts" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3 id="00-installing-the-environment
+08-jan-2019">
+          <a href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/08/00_Setting_up_the_environment/">
+            00 Installing the environment
+            <small>08 Jan 2019</small>
+          </a>
+        <a class="anchorjs-link " href="https://asu-compmethodsphysics-phy494.github.io/ASU-PHY494/2019/01/10/01_Unix_Shell/#00-installing-the-environment08-jan-2019" aria-label="Anchor link for: 00 installing the environment
+08 jan 2019" data-anchorjs-icon="" style="font: 1em/1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script>
+  
+
+</body></html>
